@@ -18,3 +18,6 @@ A machine learning-based web app to detect phishing URLs.
 ```bash
 pip install -r requirements.txt
 python app.py
+## 📸 Screenshot
+
+![App Screenshot](static/phishing.png)
