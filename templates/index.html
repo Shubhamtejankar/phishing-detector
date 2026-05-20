@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Phishing Detector </title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+
+   <!-- Main Card -->
+    <div class="container">
+
+     <header>
+        <h1>🛡️ Phishing Detector </h1>
+        <p>AI-powered URL security analysis</p>
+    </header>
+    <div class="card">
+        <input type="text" id="url" placeholder="Enter URL...">
+        <button onclick="scanURL()">Scan Now</button>
+
+        <div id="loading" class="loading">🔍 Scanning...</div>
+
+        <div id="result"></div>
+        <div id="status"></div>
+        <div id="checks"></div>
+    </div>
+
+</div>
+
+<script>
+function scanURL() {
+    let url = document.getElementById("url").value;
+
+    document.getElementById("loading").style.display = "block";
+    document.getElementById("result").innerHTML = "";
+    document.getElementById("status").innerHTML = "";
+    document.getElementById("checks").innerHTML = "";
+
+    fetch("/scan", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ url: url })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("loading").style.display = "none";
+
+        document.getElementById("result").innerHTML = data.result;
+        document.getElementById("status").innerHTML = "🌐 Status: " + data.status;
+
+        let checksHTML = "";
+        data.checks.forEach(c => {
+            checksHTML += "<p>" + c + "</p>";
+        });
+
+        document.getElementById("checks").innerHTML = checksHTML;
+    });
+}
+</script>
+
+
+    <!-- Features Section -->
+    <div class="features">
+        <div class="feature-box">
+            <h3>⚡ Fast Detection</h3>
+            <p>Instant AI-based analysis</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>🔐 Secure</h3>
+            <p>Protects from phishing attacks</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>🤖 ML Powered</h3>
+            <p>Advanced RandomForest model</p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
